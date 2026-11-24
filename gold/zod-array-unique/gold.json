@@ -1,0 +1,15 @@
+{
+  "task_id": "zod-array-unique",
+  "repo_id": "colinhacks-zod",
+  "repo_source": "https://github.com/colinhacks/zod",
+  "pinned_version": "d40c329910436e528d3c26cb1b9179e05abebf05",
+  "language": "typescript",
+  "test_framework": "vitest",
+  "test_project": "zod",
+  "docker_image": "factory/colinhacks-zod:d40c329",
+  "test_cmd": ["node_modules/.bin/vitest", "run", "--project", "zod", "--reporter=json"],
+  "title": "Add .unique() to array schemas",
+  "variety": {"task_type": "new_feature", "change_pattern": "validation_or_business_rule", "scope": "single_function"},
+  "difficulty": "easy",
+  "files_touched": ["packages/zod/src/v4/classic/schemas.ts"]
+}

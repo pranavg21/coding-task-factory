@@ -1,0 +1,44 @@
+{
+  "task_id": "T-01-voucher-discount",
+  "PASS_TO_PASS": [
+    "tests/test_cart.py::test_basic_subtotal",
+    "tests/test_cart.py::test_tax_calc"
+  ],
+  "FAIL_TO_PASS": [
+    "tests/test_voucher.py::test_percent_voucher",
+    "tests/test_voucher.py::test_expired_voucher_raises",
+    "tests/test_voucher.py::test_min_order_threshold",
+    "tests/test_voucher.py::test_floor_at_zero"
+  ],
+  "runs": [
+    {
+      "run_index": 1,
+      "check1_baseline_pass": true,
+      "check2_patched_all_pass": true,
+      "check3_unpatched_new_fail": true,
+      "duration_sec": 4.2
+    },
+    {
+      "run_index": 2,
+      "check1_baseline_pass": true,
+      "check2_patched_all_pass": true,
+      "check3_unpatched_new_fail": true,
+      "duration_sec": 4.1
+    },
+    {
+      "run_index": 3,
+      "check1_baseline_pass": true,
+      "check2_patched_all_pass": true,
+      "check3_unpatched_new_fail": true,
+      "duration_sec": 4.3
+    }
+  ],
+  "flake_count": 0,
+  "patch_guard_passed": true,
+  "mutants_total": 8,
+  "mutants_killed": 7,
+  "adversary_total": 2,
+  "adversary_caught": 2,
+  "blind_solve_passed": true,
+  "blind_solve_diagnosis": "solved"
+}

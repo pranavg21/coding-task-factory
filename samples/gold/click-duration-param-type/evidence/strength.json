@@ -1,0 +1,8 @@
+{
+ "total": 8,
+ "caught": 7,
+ "catch_rate": 0.875,
+ "survivors": [
+  "return_none: return \"DURATION\" -> return None"
+ ]
+}

@@ -1,0 +1,27 @@
+{
+  "task_id": "click-duration-param-type",
+  "title": "Add a Duration parameter type",
+  "variety": {
+    "task_type": "new_feature",
+    "change_pattern": "new_endpoint_or_command",
+    "scope": "multi_file"
+  },
+  "difficulty": "medium",
+  "files_touched": [
+    "src/click/types.py",
+    "src/click/__init__.py"
+  ],
+  "symbols_touched": [],
+  "max_similarity_to_accepted": 0.0,
+  "safety_passed": true,
+  "provenance": {
+    "seed": 0,
+    "planner_model": "human (gold)",
+    "spec_model": "human (gold)",
+    "coder_model": "human (gold)",
+    "tester_model": "human (gold)",
+    "revision_rounds": 0,
+    "estimated_cost_usd": 0.0,
+    "total_runtime_sec": 0.0
+  }
+}

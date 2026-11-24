@@ -1,0 +1,8 @@
+{
+ "total": 3,
+ "caught": 2,
+ "catch_rate": 0.6667,
+ "survivors": [
+  "lt_to_lte: for (let i = 0; i < items.length; i++) { -> for (let i = 0; i <= items.length; i++) {"
+ ]
+}

@@ -1,0 +1,18 @@
+task_id = "click-duration-param-type"
+repo_id = "pallets-click"
+repo_source = "https://github.com/pallets/click"
+pinned_version = "08b803cf32ceb2ae6a772c62d5da42757a897d44"
+language = "python"
+test_framework = "pytest"
+docker_image = "factory/pallets-click:08b803c"
+test_cmd = [
+    "python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "-rA",
+]
+test_project = ""
+created_at = "2026-11-24T08:09:49.570352+00:00"

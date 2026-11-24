@@ -1,0 +1,112 @@
+diff --git a/src/click/__init__.py b/src/click/__init__.py
+index a34ab02..61f8c42 100644
+--- a/src/click/__init__.py
++++ b/src/click/__init__.py
+@@ -56,6 +56,7 @@ from .termui import unstyle as unstyle
+ from .types import BOOL as BOOL
+ from .types import Choice as Choice
+ from .types import DateTime as DateTime
++from .types import Duration as Duration
+ from .types import File as File
+ from .types import FLOAT as FLOAT
+ from .types import FloatRange as FloatRange
+diff --git a/src/click/types.py b/src/click/types.py
+index 5d11e9f..97d29d2 100644
+--- a/src/click/types.py
++++ b/src/click/types.py
+@@ -8,7 +8,9 @@ import stat
+ import sys
+ import typing as t
+ import uuid
++import re
+ from datetime import datetime
++from datetime import timedelta
+ from gettext import gettext as _
+ from gettext import ngettext
+ 
+@@ -572,6 +574,85 @@ class DateTime(ParamType[datetime]):
+         return "DateTime"
+ 
+ 
++_DURATION_UNITS = {"d": 86400, "h": 3600, "m": 60, "s": 1}
++_DURATION_RE = re.compile(r"(\d+)([dhms])")
++
++
++class Duration(ParamType[timedelta]):
++    """The Duration type converts strings such as ``90s``, ``15m``,
++    ``1h30m`` or ``2d`` into :class:`datetime.timedelta` objects.
++
++    A duration is one or more ``<integer><unit>`` parts with no spaces,
++    using the units ``d`` (days), ``h`` (hours), ``m`` (minutes) and
++    ``s`` (seconds), each at most once and in that order. A bare
++    integer is a number of seconds. Upper-case units are accepted.
++
++    :param min: The shortest duration accepted, or ``None``.
++    :param max: The longest duration accepted, or ``None``.
++    """
++
++    name = "duration"
++
++    def __init__(
++        self, min: timedelta | None = None, max: timedelta | None = None
++    ) -> None:
++        self.min = min
++        self.max = max
++
++    def get_metavar(self, param: Parameter, ctx: Context) -> str:
++        return "DURATION"
++
++    def _parse(self, text: str) -> timedelta | None:
++        text = text.strip().lower()
++        if text.isdigit():
++            return timedelta(seconds=int(text))
++        parts = _DURATION_RE.findall(text)
++        if not parts or "".join(n + u for n, u in parts) != text:
++            return None
++        units = [u for _, u in parts]
++        # Each unit at most once, largest first: "1h30m" is valid, "30m1h" is not.
++        if units != [u for u in "dhms" if u in units]:
++            return None
++        return timedelta(seconds=sum(int(n) * _DURATION_UNITS[u] for n, u in parts))
++
++    def convert(
++        self, value: t.Any, param: Parameter | None, ctx: Context | None
++    ) -> timedelta:
++        if isinstance(value, timedelta):
++            result: timedelta | None = value
++        elif isinstance(value, int) and not isinstance(value, bool):
++            result = timedelta(seconds=value) if value >= 0 else None
++        else:
++            result = self._parse(str(value))
++
++        if result is None:
++            self.fail(
++                _("{value!r} is not a valid duration.").format(value=value),
++                param,
++                ctx,
++            )
++        if self.min is not None and result < self.min:
++            self.fail(
++                _("{value!r} is shorter than the minimum {min}.").format(
++                    value=value, min=self.min
++                ),
++                param,
++                ctx,
++            )
++        if self.max is not None and result > self.max:
++            self.fail(
++                _("{value!r} is longer than the maximum {max}.").format(
++                    value=value, max=self.max
++                ),
++                param,
++                ctx,
++            )
++        return result
++
++    def __repr__(self) -> str:
++        return "Duration"
++
++
+ class _NumberParamTypeBase(
+     ParamType[_ValueT_co], t.Generic[_ValueT_contra, _ValueT_co]
+ ):

@@ -1,0 +1,14 @@
+{
+  "task_id": "jsoncpp-value-flatten",
+  "repo_id": "open-source-parsers-jsoncpp",
+  "repo_source": "https://github.com/open-source-parsers/jsoncpp",
+  "pinned_version": "93acc7b155048f1a66c43235cc205519f1e7a6ea",
+  "language": "cpp",
+  "test_framework": "jsontest",
+  "docker_image": "factory/open-source-parsers-jsoncpp:93acc7b",
+  "test_cmd": ["build-factory/bin/jsoncpp_test", "--test"],
+  "title": "Add Value::flatten() for path-keyed leaves",
+  "variety": {"task_type": "new_feature", "change_pattern": "algorithm_or_edge_case", "scope": "multi_file"},
+  "difficulty": "medium",
+  "files_touched": ["include/json/value.h", "src/lib_json/json_value.cpp"]
+}

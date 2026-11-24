@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Coding Task Factory — audit report</title><style>
+:root{--ink:#15202b;--muted:#5b6672;--line:#d8dee6;--blue:#176eb8;--orange:#c8701f;--green:#1e7a46;--red:#b3261e;--bg:#f6f8fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Segoe UI,sans-serif}
+main{max-width:1180px;margin:0 auto;padding:28px 18px 60px}h1{margin:0 0 4px;font-size:26px}h2{margin:34px 0 10px;font-size:19px}
+.sub{color:var(--muted);margin:0 0 20px}.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}.kpi b{display:block;font-size:24px}
+.kpi span{color:var(--muted);font-size:13px}table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:13.5px;vertical-align:top}th{background:#eef2f7}
+.ok{color:var(--green);font-weight:600}.bad{color:var(--red);font-weight:600}.tag{display:inline-block;padding:1px 7px;border-radius:9px;font-size:12px;background:#eef2f7}
+.gold{background:#fbefe4;color:#8a4a0c}.heat td{text-align:center;width:9%}.note{color:var(--muted);font-size:13px}
+.wrap{overflow-x:auto}code{font-size:12.5px}
+</style></head><body><main>
+<h1>Coding Task Factory — audit report</h1>
+<p class="sub">Every number below is read from the task packages, funnel and run records in the output folders. Gold tasks are hand-built references and are not counted as factory output.</p>
+<div class="kpis"><div class="kpi"><b>0</b><span>candidates (generated)</span></div><div class="kpi"><b>0</b><span>accepted (generated)</span></div>
+<div class="kpi"><b>0</b><span>rejected, with reasons</span></div><div class="kpi"><b>3</b><span>gold tasks proven</span></div>
+<div class="kpi"><b>15/17</b><span>planted bugs caught</span></div><div class="kpi"><b>0</b><span>flaky tests</span></div>
+<div class="kpi"><b>—</b><span>model cost per accepted task</span></div><div class="kpi"><b>0</b><span>manual edits to outputs (manual_interventions.json)</span></div></div>
+<h2>Tasks and the 3-condition proof</h2>
+<p class="note">Condition 1: untouched repository passes every PASS_TO_PASS test. Condition 2: with the reference patch, every test passes. Condition 3: without it, every new test fails. Each task ran all three on 3 fresh copies; any test whose result changed between runs rejects the task.</p>
+<div class="wrap"><table><tr><th>Task</th><th>Repository</th><th>Variety cell</th><th>New tests</th><th>Existing tests</th><th>Runs passed</th><th>Verdict</th><th>Planted bugs caught / survivors</th></tr><tr><td><b>click-duration-param-type</b><br>Add a Duration parameter type<br><span class="tag gold">gold (hand-built)</span></td><td>pallets-click<br><code>08b803c</code> · pytest</td><td>new_feature<br>new_endpoint_or_command<br>multi_file</td><td>18</td><td>2,628</td><td>3/3 · flaky 0</td><td><span class="ok">ACCEPTED</span></td><td>7/8<br><code>return_none: return &quot;DURATION&quot; -&gt; return None</code></td></tr><tr><td><b>jsoncpp-value-flatten</b><br>Add Value::flatten() for path-keyed leaves<br><span class="tag gold">gold (hand-built)</span></td><td>open-source-parsers-jsoncpp<br><code>93acc7b</code> · jsontest</td><td>new_feature<br>algorithm_or_edge_case<br>multi_file</td><td>6</td><td>133</td><td>3/3 · flaky 0</td><td><span class="ok">ACCEPTED</span></td><td>6/6<br></td></tr><tr><td><b>zod-array-unique</b><br>Add .unique() to array schemas<br><span class="tag gold">gold (hand-built)</span></td><td>colinhacks-zod<br><code>d40c329</code> · vitest</td><td>new_feature<br>validation_or_business_rule<br>single_function</td><td>10</td><td>5,545</td><td>3/3 · flaky 0</td><td><span class="ok">ACCEPTED</span></td><td>2/3<br><code>lt_to_lte: for (let i = 0; i &lt; items.length; i++) { -&gt; for (let i = 0; i &lt;= items.length; i++) {</code></td></tr></table></div>
+<h2>Rejection funnel (generated candidates)</h2>
+<div class="wrap"><table><tr><th>Stage that rejected</th><th>Candidates</th></tr><tr><td colspan="2">No rejections recorded yet.</td></tr></table></div>
+<h2>Variety coverage (accepted tasks)</h2>
+<div class="wrap"><table class="heat"><tr><th></th><th>new endpoint or command</th><th>validation or business rule</th><th>data model extension</th><th>error handling path</th><th>configuration option</th><th>cross module workflow</th><th>algorithm or edge case</th></tr><tr><th>new_feature</th><td style="background:rgba(23,110,184,0.72)">1</td><td style="background:rgba(23,110,184,0.72)">1</td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0.72)">1</td></tr><tr><th>feature_change</th><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td></tr><tr><th>bug_fix</th><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td><td style="background:rgba(23,110,184,0)"></td></tr></table></div>
+<h2>Runs</h2>
+<div class="wrap"><table><tr><th>Repository</th><th>Pinned</th><th>Seed</th><th>Accepted / target</th><th>API calls</th><th>Cost</th><th>Runtime</th></tr>
+<tr><td colspan="7">No generation runs recorded yet.</td></tr></table></div>
+</main></body></html>

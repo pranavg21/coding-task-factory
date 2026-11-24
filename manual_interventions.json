@@ -1,0 +1,5 @@
+{
+  "policy": "Disclose every manual edit to generated specs, patches, tests, or outputs. Target: 0.",
+  "total_manual_edits": 0,
+  "interventions": []
+}

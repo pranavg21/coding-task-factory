@@ -1,0 +1,53 @@
+diff --git a/include/json/value.h b/include/json/value.h
+index 171f20a..c874f03 100644
+--- a/include/json/value.h
++++ b/include/json/value.h
+@@ -661,6 +661,14 @@ public:
+   /// \post if type() was nullValue, it remains nullValue
+   Members getMemberNames() const;
+ 
++  /// \brief Return an object mapping each leaf's path to a copy of the leaf.
++  ///
++  /// Object keys and array indexes along the way are joined with
++  /// \c separator, for example {"a":{"b":[1,2]}} becomes
++  /// {"a.b.0":1,"a.b.1":2}. Scalars and empty objects or arrays are leaves.
++  /// A scalar at the root is returned as {"": value}.
++  Value flatten(char separator = '.') const;
++
+   /// \deprecated Always pass len.
+   JSONCPP_DEPRECATED("Use setComment(String const&) instead.")
+   void setComment(const char* comment, CommentPlacement placement) {
+diff --git a/src/lib_json/json_value.cpp b/src/lib_json/json_value.cpp
+index 5d3ddfd..4f66038 100644
+--- a/src/lib_json/json_value.cpp
++++ b/src/lib_json/json_value.cpp
+@@ -1353,6 +1353,29 @@ bool Value::isMember(String const& key) const {
+   return isMember(key.data(), key.data() + key.length());
+ }
+ 
++static void flattenInto(const Value& node, const String& path, char separator,
++                        Value& out) {
++  const bool container = node.isObject() || node.isArray();
++  if (!container || node.empty()) {
++    out[path] = node;
++    return;
++  }
++  const String prefix = path.empty() ? String() : path + separator;
++  if (node.isArray()) {
++    for (ArrayIndex i = 0; i < node.size(); ++i)
++      flattenInto(node[i], prefix + std::to_string(i), separator, out);
++    return;
++  }
++  for (auto it = node.begin(); it != node.end(); ++it)
++    flattenInto(*it, prefix + it.name(), separator, out);
++}
++
++Value Value::flatten(char separator) const {
++  Value out(objectValue);
++  flattenInto(*this, String(), separator, out);
++  return out;
++}
++
+ Value::Members Value::getMemberNames() const {
+   JSON_ASSERT_MESSAGE(
+       type() == nullValue || type() == objectValue,

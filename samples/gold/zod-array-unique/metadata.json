@@ -1,0 +1,26 @@
+{
+  "task_id": "zod-array-unique",
+  "title": "Add .unique() to array schemas",
+  "variety": {
+    "task_type": "new_feature",
+    "change_pattern": "validation_or_business_rule",
+    "scope": "single_function"
+  },
+  "difficulty": "easy",
+  "files_touched": [
+    "packages/zod/src/v4/classic/schemas.ts"
+  ],
+  "symbols_touched": [],
+  "max_similarity_to_accepted": 0.0,
+  "safety_passed": true,
+  "provenance": {
+    "seed": 0,
+    "planner_model": "human (gold)",
+    "spec_model": "human (gold)",
+    "coder_model": "human (gold)",
+    "tester_model": "human (gold)",
+    "revision_rounds": 0,
+    "estimated_cost_usd": 0.0,
+    "total_runtime_sec": 0.0
+  }
+}

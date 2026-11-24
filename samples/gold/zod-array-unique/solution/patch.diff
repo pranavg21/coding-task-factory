@@ -1,0 +1,39 @@
+diff --git a/packages/zod/src/v4/classic/schemas.ts b/packages/zod/src/v4/classic/schemas.ts
+index 9e989a6..a21bb0f 100644
+--- a/packages/zod/src/v4/classic/schemas.ts
++++ b/packages/zod/src/v4/classic/schemas.ts
+@@ -1520,6 +1520,8 @@ export interface ZodArray<T extends core.SomeType = core.$ZodType>
+   nonempty(params?: string | core.$ZodCheckMinLengthParams): this;
+   max(maxLength: number, params?: string | core.$ZodCheckMaxLengthParams): this;
+   length(len: number, params?: string | core.$ZodCheckLengthEqualsParams): this;
++  /** Rejects arrays containing the same element twice (compared with `Set` semantics, so objects by reference). */
++  unique(message?: string): this;
+ 
+   unwrap(): T;
+   "~standard": ZodStandardSchemaWithJSON<this>;
+@@ -1547,6 +1549,25 @@ export const ZodArray: core.$constructor<ZodArray> = /*@__PURE__*/ core.$constru
+     length(n, params) {
+       return this.check(checks.length(n, params));
+     },
++    unique(message) {
++      return this.check(
++        superRefine((items: unknown[], ctx) => {
++          const seen = new Set<unknown>();
++          for (let i = 0; i < items.length; i++) {
++            if (seen.has(items[i])) {
++              ctx.addIssue({
++                code: "custom",
++                message: message ?? "Array items must be unique",
++                path: [i],
++                input: items[i],
++              });
++              return;
++            }
++            seen.add(items[i]);
++          }
++        })
++      );
++    },
+     unwrap() {
+       return this.element;
+     },
